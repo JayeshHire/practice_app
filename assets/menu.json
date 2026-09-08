@@ -1,0 +1,47 @@
+[
+  {
+    "name": "dal rice",
+    "price": "120",
+    "imageSource": "images/dal-rice.jpg"
+  },
+  {
+    "name": "green bean and tuna salad",
+    "price": "180",
+    "imageSource": "images/green-bean-and-tuna-salad.jpg"
+  },
+  {
+    "name": "maharaja thali",
+    "price": "240",
+    "imageSource": "images/maharaja-thali.jpg"
+  },
+  {
+    "name": "north indian thali",
+    "price": "220",
+    "imageSource": "images/north-indian-thali.jpg"
+  },
+  {
+    "name": "paneer sabji",
+    "price": "200",
+    "imageSource": "images/paneer-sabji.jpg"
+  },
+  {
+    "name": "pasta img",
+    "price": "160",
+    "imageSource": "images/pasta-img.jpg"
+  },
+  {
+    "name": "puri sagu",
+    "price": "140",
+    "imageSource": "images/puri-sagu.jpg"
+  },
+  {
+    "name": "red pasta",
+    "price": "170",
+    "imageSource": "images/red-pasta.webp"
+  },
+  {
+    "name": "south indian thali",
+    "price": "210",
+    "imageSource": "images/south-indian-thali.jpg"
+  }
+]
