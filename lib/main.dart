@@ -52,13 +52,6 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-// class OrderState {
-//   bool isOrdered ;
-//   int idx;
-
-//   OrderState(this.isOrdered, this.idx);
-// }
-
 class _MyHomePageState extends State<MyHomePage> {
 
   List<FoodItem> menu = [] ;
@@ -99,11 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
             return Center(child: Text("Error: ${snapshot.error}"),);
           }
 
-          // for (int i = 0; i < menu.length ; i++){
-          //   orderStateStore.add(
-          //     OrderState(false, i)
-          //   );
-          // }
           return Center(
             child: ListView(
               children: <Widget>[
