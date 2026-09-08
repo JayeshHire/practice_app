@@ -52,18 +52,18 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class OrderState {
-  bool isOrdered ;
-  int idx;
+// class OrderState {
+//   bool isOrdered ;
+//   int idx;
 
-  OrderState(this.isOrdered, this.idx);
-}
+//   OrderState(this.isOrdered, this.idx);
+// }
 
 class _MyHomePageState extends State<MyHomePage> {
 
   List<FoodItem> menu = [] ;
 
-  List<OrderState> orderStateStore = [];
+  // List<OrderState> orderStateStore = [];
 
   Future<void> loadJson() async {
     final String response = await rootBundle.loadString('assets/menu.json');
@@ -99,16 +99,16 @@ class _MyHomePageState extends State<MyHomePage> {
             return Center(child: Text("Error: ${snapshot.error}"),);
           }
 
-          for (int i = 0; i < menu.length ; i++){
-            orderStateStore.add(
-              OrderState(false, i)
-            );
-          }
+          // for (int i = 0; i < menu.length ; i++){
+          //   orderStateStore.add(
+          //     OrderState(false, i)
+          //   );
+          // }
           return Center(
             child: ListView(
               children: <Widget>[
                 for (int i = 0; i < menu.length ; i++)
-                GuestInfoWidget(menu[i].imageSource, menu[i].name, '\$ ${menu[i].price}', orderStateStore[i]),
+                GuestInfoWidget(menu[i].imageSource, menu[i].name, '\$ ${menu[i].price}')//, orderStateStore[i]),
               ],
             ),
           );
