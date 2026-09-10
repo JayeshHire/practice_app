@@ -8,8 +8,9 @@ class MenuInfoWidget extends StatefulWidget {
   String imgSource;
   String name;
   String price;
+  OrderState orderState ;
 
-  MenuInfoWidget(this.imgSource, this.name, this.price);
+  MenuInfoWidget(this.imgSource, this.name, this.price, this.orderState);
   
   @override
   _MenuInfoWidgetState createState() => _MenuInfoWidgetState();
@@ -18,13 +19,27 @@ class MenuInfoWidget extends StatefulWidget {
 class _MenuInfoWidgetState extends State<MenuInfoWidget> {
   bool isOrdered = false;
 
+  // load the state at initState and store the state before destroy
+
+  void loadOrderState(){
+    setState(() {
+      isOrdered = widget.orderState.isOrdered;
+    });
+  }
+
+  void persistOrderState(){
+    widget.orderState.isOrdered = isOrdered ;
+  }
+
   @override  
   void initState(){
     super.initState();
+    loadOrderState();
   }
 
   @override  
   void dispose(){
+    persistOrderState();
     super.dispose();
   }
 
