@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'guest_info.dart';
+import 'menu_info.dart';
 
 void main() {
   runApp(const MyApp());
@@ -56,8 +56,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<FoodItem> menu = [] ;
 
-  // List<OrderState> orderStateStore = [];
-
   Future<void> loadJson() async {
     final String response = await rootBundle.loadString('assets/menu.json');
 
@@ -96,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: ListView(
               children: <Widget>[
                 for (int i = 0; i < menu.length ; i++)
-                GuestInfoWidget(menu[i].imageSource, menu[i].name, '\$ ${menu[i].price}')//, orderStateStore[i]),
+                MenuInfoWidget(menu[i].imageSource, menu[i].name, '\$ ${menu[i].price}'),
               ],
             ),
           );
