@@ -1,0 +1,108 @@
+
+
+import 'package:flutter/material.dart';
+import 'package:my_app/dummy_project/main.dart';
+
+class MenuInfoWidget extends StatefulWidget {
+
+  String imgSource;
+  String name;
+  String price;
+
+  MenuInfoWidget(this.imgSource, this.name, this.price);
+  
+  @override
+  _MenuInfoWidgetState createState() => _MenuInfoWidgetState();
+}
+
+class _MenuInfoWidgetState extends State<MenuInfoWidget> {
+  bool isOrdered = false;
+
+  @override  
+  void initState(){
+    super.initState();
+  }
+
+  @override  
+  void dispose(){
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return Center(
+      child: SizedBox(
+        width: 400,
+        child: Card(
+          child: Column(
+            children: <Widget>[
+              Image.asset(
+                widget.imgSource,
+                height: 200,
+                width: double.infinity,
+                fit: BoxFit.contain,
+                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: ListTile(
+                      title: Text("${widget.name}"),
+                      subtitle: Text("${widget.price}"),
+                      tileColor: Colors.amber,
+                    )
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: switch(isOrdered){
+                          true => Color(0xFF450C3F),
+                          _ => Color(0xFFFFF5F5)
+                        },
+                        foregroundColor: switch(isOrdered) {
+                          true => Color(0xFFD9EFBD),
+                          _ => Color(0xFF4A4A4A)
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.zero,
+                            topRight: Radius.zero,
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20)
+                          )
+                        )
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isOrdered = !isOrdered ;
+                        });
+                      },
+                      child: switch(isOrdered){
+                        true => Text(
+                          "Ordered",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        _ => Text(
+                          "order now",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold
+                          ),
+                        )
+                      },
+                    ),
+                  )
+                ]
+              )
+            ],
+          ),
+        )
+      )
+    );
+  }
+}
