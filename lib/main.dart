@@ -77,14 +77,14 @@ class _VideoAppState extends State<VideoApp> {
                     ),
                   )
                   : Container(),
-                  VideoControlsVisibilityWidget(controller: _controller)
+                  VideoControlsVisibilityWidget(controller: _controller, isFullScreen: false)
                 ],
               )
             ),
           )
         ],
       )
-        );
+    );
   }
 
   @override

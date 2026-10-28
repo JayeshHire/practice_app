@@ -1,14 +1,44 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:my_app/fullscreen.dart';
 import 'package:video_player/video_player.dart';
+
+import 'package:flutter/services.dart';
+
+
+void enterFullScreen() {
+  // Hide top status bar and bottom navigation bar
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  
+  // Force landscape orientation
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]);
+}
+
+void exitFullScreen() {
+  // Restore system bars
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  
+  // Restore all orientations
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]);
+}
+
 
 class VideoControlsVisibilityWidget extends StatefulWidget {
 
 
-  VideoControlsVisibilityWidget({super.key, required this.controller}) ;
+  VideoControlsVisibilityWidget({super.key, required this.controller, required this.isFullScreen}) ;
 
   VideoPlayerController controller ;
+  bool isFullScreen ; 
 
   @override
   VideoControlsVisibilityStateWidget createState() => VideoControlsVisibilityStateWidget() ;
@@ -103,10 +133,13 @@ class VideoControlsVisibilityStateWidget extends State<VideoControlsVisibilityWi
                     Positioned(
                       top: 10,
                       width: double.infinity,
-                      child: VideoProgressIndicator(
-                        widget.controller,
-                        allowScrubbing: true,
-                      ),
+                      child: Container(
+                        margin: EdgeInsets.fromLTRB(10, 0, 10, 25),
+                        child: VideoProgressIndicator(
+                          widget.controller,
+                          allowScrubbing: true,
+                        ),
+                      )
                     )
               ),
               Align(
@@ -163,6 +196,29 @@ class VideoControlsVisibilityStateWidget extends State<VideoControlsVisibilityWi
                   ),
                 )
               ),
+              Positioned(
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: InkWell(
+                    child: Icon(
+                      widget.isFullScreen ? Icons.fullscreen_exit: Icons.fullscreen ,
+                      color: Colors.white,
+                    ),
+                    onTap: () {
+                      if (widget.isFullScreen){
+                        exitFullScreen();
+                        Navigator.pop(context);
+                      } else {
+                        enterFullScreen();
+                        Navigator.push(
+                          context, 
+                          MaterialPageRoute(builder: (_) => FullscreenWiget())
+                          );
+                      }
+                    },
+                  ),
+                ),
+              )
             ],
           )
         ),
