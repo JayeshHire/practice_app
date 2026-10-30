@@ -163,10 +163,10 @@ class VideoControlsVisibilityStateWidget extends State<VideoControlsVisibilityWi
                 onTap: (){
                   _showWidgetTemporarily();
                 },
-                onDoubleTap: (){
+                onDoubleTap: () async {
                   Duration currentDuration = widget.controller.value.position ;
                   currentDuration -= Duration(seconds: 10);
-                  widget.controller.seekTo(currentDuration);
+                  await widget.controller.seekTo(currentDuration);
                   setState(() {
                   });
                 },
@@ -180,10 +180,10 @@ class VideoControlsVisibilityStateWidget extends State<VideoControlsVisibilityWi
                 onTap: (){
                   _showWidgetTemporarily();
                 },
-                onDoubleTap: (){
+                onDoubleTap: () async {
                   Duration currentDuration = widget.controller.value.position ;
                   currentDuration += Duration(seconds: 10);
-                  widget.controller.seekTo(currentDuration);
+                  await widget.controller.seekTo(currentDuration);
                   setState(() {
                   });
                 },
