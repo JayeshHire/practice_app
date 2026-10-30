@@ -141,13 +141,18 @@ class VideoControlsVisibilityStateWidget extends State<VideoControlsVisibilityWi
   @override
   void dispose() {
     // TODO: implement dispose
+    super.dispose();
     _timer?.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
+
     return Container(
       width: double.infinity,
+      // height: 230,
       child: Stack(
       children: [
         Row(
@@ -195,65 +200,116 @@ class VideoControlsVisibilityStateWidget extends State<VideoControlsVisibilityWi
         maintainState: true,
         child: Stack(
           children: [
-              Align(
-                  alignment: Alignment.bottomCenter,
-                  child: 
-                  // Padding(
-                    // padding: const EdgeInsets.fromLTRB(5, 10, 5, 500),
-                    // child: 
-                    Positioned(
-                      top: 10,
-                      width: double.infinity,
-                      child: Container(
+            Positioned(
+              // top: 10,
+              // width: screenSize.width,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
                         margin: EdgeInsets.fromLTRB(10, 0, 10, 25),
+                        width: screenSize.width,
                         child: VideoProgressIndicator(
                           widget.controller,
                           allowScrubbing: true,
                         ),
-                      )
-                    )
+                      ),
               ),
-              Align(
-                alignment: Alignment.topRight,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Positioned(
-                      top: 10,
-                      right: 10,
-                      left: 10,
-                      child: Icon(
-                        Icons.closed_caption,
-                        color: Colors.white,
+            ),
+              // Align(
+              //     alignment: Alignment.bottomCenter,
+              //     child: 
+              //     // Padding(
+              //       // padding: const EdgeInsets.fromLTRB(5, 10, 5, 500),
+              //       // child: 
+              //       Positioned(
+              //         top: 10,
+              //         width: double.infinity,
+              //         child: Container(
+              //           margin: EdgeInsets.fromLTRB(10, 0, 10, 25),
+              //           child: VideoProgressIndicator(
+              //             widget.controller,
+              //             allowScrubbing: true,
+              //           ),
+              //         )
+              //       )
+              // ),
+
+              Positioned(
+                top: 10,
+                bottom: 10,
+                right: 10,
+                left: 10,
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                        child: Icon(
+                          Icons.closed_caption,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    Positioned(
-                      top: 10,
-                      // right: 10,
-                      bottom: 10,
-                      child: Icon(
-                        Icons.speed,
-                        color: Colors.white,
+                      Container(
+                        margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                        child: Icon(
+                          Icons.speed,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    Positioned(
-                      top: 10,
-                      bottom: 10,
-                      right: 10,
-                      child: Icon(
-                        Icons.settings,
-                        color: Colors.white,
+                      Container(
+                        margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                        child: Icon(
+                          Icons.settings,
+                          color: Colors.white,
+                        ),
                       ),
-                    )
-                  ],
-                )
+                    ],
+                  ),
+                ),
               ),
-              Center(
-                child: Positioned(
-                  top: 10,
-                  bottom: 10,
-                  right: 10,
-                  left: 10,
+              // Align(
+              //   alignment: Alignment.topRight,
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.end,
+              //     children: [
+              //       Positioned(
+              //         top: 10,
+              //         right: 10,
+              //         left: 10,
+              //         child: Icon(
+              //           Icons.closed_caption,
+              //           color: Colors.white,
+              //         ),
+              //       ),
+              //       Positioned(
+              //         top: 10,
+              //         // right: 10,
+              //         bottom: 10,
+              //         child: Icon(
+              //           Icons.speed,
+              //           color: Colors.white,
+              //         ),
+              //       ),
+              //       Positioned(
+              //         top: 10,
+              //         bottom: 10,
+              //         right: 10,
+              //         child: Icon(
+              //           Icons.settings,
+              //           color: Colors.white,
+              //         ),
+              //       )
+              //     ],
+              //   )
+              // ),
+              Positioned(
+                top: 10,
+                bottom: 10,
+                right: 10,
+                left: 10,
+                child: Center(
                   child: InkWell(
                     onTap: () {
                       widget.controller.value.isPlaying? widget.controller.pause(): widget.controller.play();
@@ -268,6 +324,26 @@ class VideoControlsVisibilityStateWidget extends State<VideoControlsVisibilityWi
                   ),
                 )
               ),
+              // Center(
+              //   child: Positioned(
+              //     top: 10,
+              //     bottom: 10,
+              //     right: 10,
+              //     left: 10,
+              //     child: InkWell(
+              //       onTap: () {
+              //         widget.controller.value.isPlaying? widget.controller.pause(): widget.controller.play();
+              //         setState(() {
+                        
+              //         });
+              //       },
+              //       child: Icon(
+              //         widget.controller.value.isPlaying? Icons.pause: Icons.play_arrow ,
+              //         color: Colors.white,
+              //       ),
+              //     ),
+              //   )
+              // ),
               Positioned(
                 child: Align(
                   alignment: Alignment.bottomRight,
