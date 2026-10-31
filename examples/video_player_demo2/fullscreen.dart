@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:my_app/video_component.dart';
+import 'video_component.dart';
 import 'package:video_player/video_player.dart';
 
 class FullscreenWiget extends StatelessWidget {

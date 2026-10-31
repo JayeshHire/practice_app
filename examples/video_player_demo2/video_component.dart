@@ -1,7 +1,7 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:my_app/fullscreen.dart';
+import 'fullscreen.dart';
 import 'package:video_player/video_player.dart';
 
 import 'package:flutter/services.dart';
