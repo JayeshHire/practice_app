@@ -1,12 +1,13 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 @immutable
 class Farmer {
-  Farmer({
+  const Farmer({
     required this.name,
-    required this.Address,
+    required this.address,
     required this.education,
     required this.familyBackground,
     required this.careerInceptionDatetime,
@@ -16,7 +17,7 @@ class Farmer {
   factory Farmer.initialize(){
     return Farmer(
       name: "", 
-      Address: "", 
+      address: "", 
       education: "", 
       familyBackground: "", 
       careerInceptionDatetime: DateTime(1990), 
@@ -27,7 +28,7 @@ class Farmer {
   factory Farmer.copyWith(
     Farmer farmer,
     String? name,
-    String? Address,
+    String? address,
     String? education,
     String? familyBackground,
     DateTime? careerInceptionDatetime,
@@ -35,7 +36,7 @@ class Farmer {
   ){
     return Farmer(
       name: name?? farmer.name, 
-      Address: Address?? farmer.Address, 
+      address: address?? farmer.address, 
       education: education?? farmer.education , 
       familyBackground: familyBackground?? farmer.familyBackground, 
       careerInceptionDatetime: careerInceptionDatetime?? farmer.careerInceptionDatetime, 
@@ -44,7 +45,7 @@ class Farmer {
   }
 
   final String name;
-  final String Address;
+  final String address;
   final String education;
   final String familyBackground;
   final DateTime careerInceptionDatetime;
@@ -52,9 +53,36 @@ class Farmer {
 
 }
 
+final farmerProvider = Provider<Farmer>((ref) {
+  return Farmer.initialize();
+});
+
 @immutable 
 class FarmPropertiesDetail {
   
+  const FarmPropertiesDetail({
+    required this.noFarmProperties,
+    required this.farmProperties
+  });
+
+  factory FarmPropertiesDetail.initialize(){
+    return FarmPropertiesDetail(
+      noFarmProperties: 0, 
+      farmProperties: []
+    );
+  }
+
+  factory FarmPropertiesDetail.copyWith(
+    FarmPropertiesDetail farmPropertiesDetail,
+    int? noFarmProperties,
+    List<FarmProperty>? farmProperties
+  ){
+    return FarmPropertiesDetail(
+      noFarmProperties: noFarmProperties?? farmPropertiesDetail.noFarmProperties, 
+      farmProperties: farmProperties?? farmPropertiesDetail.farmProperties
+    );
+  }
+
   final int noFarmProperties ;
   final List<FarmProperty> farmProperties ;
 }
@@ -62,13 +90,41 @@ class FarmPropertiesDetail {
 @immutable 
 class FarmProperty {
 
+  const FarmProperty({
+    required this.farmlandArea,
+    required this.areaUnit,
+    required this.location
+  });
+
+  factory FarmProperty.initialize(){
+    return FarmProperty(
+      farmlandArea: 0, 
+      areaUnit: AreaUnit.acre, 
+      location: ""
+    );
+  }
+
+  factory FarmProperty.copyWith(
+    FarmProperty farmProperty,
+    double? farmlandArea,
+    AreaUnit? areaUnit,
+    String? location
+  ){
+    return FarmProperty(
+      farmlandArea: farmlandArea?? farmProperty.farmlandArea, 
+      areaUnit: areaUnit?? farmProperty.areaUnit, 
+      location: location?? farmProperty.location
+    );
+  }
+
   final double farmlandArea ;
+  final AreaUnit areaUnit;
   final String location ;
 }
 
 enum CropLifecycleStage {
-  not_planted,
-  planted_but_not_harvested,
+  notPlanted,
+  plantedButNotHarvested,
   harvested
 }
 
@@ -80,8 +136,8 @@ enum WeightUnit {
 }
 
 enum AreaUnit {
-  sq_m,
-  sq_ft,
+  sqM,
+  sqFt,
   hectare,
   acre,
   guntha
@@ -96,7 +152,7 @@ enum PlantationMaterial {
 @immutable 
 class CropDetails {
 
-  CropDetails({
+  const CropDetails({
     required this.name,
     required this.plantationDate,
     required this.harvestDate,
@@ -119,7 +175,7 @@ class CropDetails {
       name: "", 
       plantationDate: DateTime.now(), 
       harvestDate: DateTime.now(), 
-      lifecycleStage: CropLifecycleStage.not_planted, 
+      lifecycleStage: CropLifecycleStage.notPlanted, 
       yieldQuantity: 0, 
       weightUnit: WeightUnit.quintal, 
       plantationArea: 0, 
@@ -190,7 +246,7 @@ class CropDetails {
 
 enum IncomeCalcPeriod {
   yearly,
-  half_yearly,
+  halfYearly,
   quaterly,
   monthly
 }
@@ -198,7 +254,7 @@ enum IncomeCalcPeriod {
 @immutable
 class AlliedBusiness {
 
-  AlliedBusiness({
+  const AlliedBusiness({
     required this.farmTools,
     required this.income,
     required this.incomeCalcPeriod,
