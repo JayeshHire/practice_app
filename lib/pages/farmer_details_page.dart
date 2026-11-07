@@ -130,13 +130,13 @@ class _FarmerDetFormState extends State<FarmerDetailsForm>{
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                         child: FloatingActionButton(
-                          onPressed: () {
+                          onPressed: () async {
                             print("name: ${nameController.text}");
                             print("address: ${addressController.text}");
                             print("education: ${educationController.text}");
                             print("family background: ${familyController.text}");
                             print("career inception date: ${careerInceptionDateController.text}");
-                            ref.read(farmerProvider.notifier).save(
+                            await ref.read(farmerProvider.notifier).save(
                               nameController.text, 
                               addressController.text, 
                               educationController.text, 
@@ -144,6 +144,13 @@ class _FarmerDetFormState extends State<FarmerDetailsForm>{
                               _selectedDateTime, 
                               _selectedDateTime == null ? Duration(days: 0): DateTime.now().difference(_selectedDateTime!)
                             );
+
+                            nameController.text = "" ;
+                            addressController.text = "" ;
+                            educationController.text = "" ;
+                            familyController.text = "";
+                            careerInceptionDateController.text = "";
+                            _selectedDateTime = DateTime.now();
                             // print("")
                           },
                           child: Icon(Icons.info),
@@ -157,7 +164,7 @@ class _FarmerDetFormState extends State<FarmerDetailsForm>{
                               context, 
                               MaterialPageRoute(
                                 builder: (context){
-                                  return FarmPropertiesDetailsPage();
+                                  return FarmPropertiesDetailsFormPage();
                                 }
                               )
                             );
@@ -173,7 +180,7 @@ class _FarmerDetFormState extends State<FarmerDetailsForm>{
                               context, 
                               MaterialPageRoute(
                                 builder: (context){
-                                  return FarmerProfilePage();
+                                  return FarmerDetailsInfo();
                                 }
                               )
                             );
@@ -192,12 +199,69 @@ class _FarmerDetFormState extends State<FarmerDetailsForm>{
   }
 }
 
-class FarmerProfilePage extends ConsumerWidget {
+class FarmerDetailsInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Entered Farmers Information"),),
+      body: SafeArea(
+        child: FutureBuilder<List<Farmer>>(
+          future: ref.read(farmerProvider.notifier).getFarmers(),
+          builder: (context, snapshot){
+            if (snapshot.hasError){
+              return Text(
+                "Error: ${snapshot.error}",
+                style: const TextStyle(
+                  color: Colors.red
+                ),
+              );
+            }
+            
+            if (snapshot.connectionState == ConnectionState.waiting){
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Color(0xFFA0E0EF),
+                ),
+              );
+            } else if (snapshot.connectionState == ConnectionState.done && snapshot.hasData){
+              List<Farmer> farmers = snapshot.data! ;
+              return ListView.builder(
+                itemCount: farmers.length,
+                itemBuilder: (context, index){
+                  return TextButton(
+                    onPressed: (){
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return SingleFarmerProfilePage(farmers[index]);
+                          }
+                        )
+                      );
+                    }, 
+                    child: Text("${farmers[index].name}")
+                  );
+                },
+              );
+            }
 
-    final farmer = ref.watch(farmerProvider);
+            return Text("Unknown Error") ;
+          }
+        ),
+      ),
+    );
+  }
+}
+
+class SingleFarmerProfilePage extends StatelessWidget {
+
+  SingleFarmerProfilePage(this.farmer);
+
+  final Farmer farmer;
+
+  @override
+  Widget build(BuildContext context) {
 
     return Scaffold(
       body: SafeArea(

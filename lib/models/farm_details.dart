@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_app/main.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 @immutable
 class Farmer {
@@ -11,7 +13,7 @@ class Farmer {
     required this.education,
     required this.familyBackground,
     required this.careerInceptionDatetime,
-    required this.careerSpan
+    required this.careerSpan,
   });
 
   factory Farmer.initialize(){
@@ -43,12 +45,38 @@ class Farmer {
       );
   }
 
+  static Duration toDuration(String dStr){
+    List<String> lstr = dStr.split(":");
+    int hours =  int.parse(lstr[0]);
+    int mins = int.parse(lstr[1]);
+    int secs = int.parse(lstr[2].split(".")[0]);
+    int ms = int.parse(lstr[2].split(".")[0]);
+    return Duration(
+      hours: hours, 
+      minutes: mins,
+      seconds: secs,
+      milliseconds: ms
+    );
+  }
+
+  static Farmer fromJson(Map<String, dynamic> data){
+    return Farmer(
+      name: data["name"], 
+      address: data["address"], 
+      education: data["education"], 
+      familyBackground: data["family_background"], 
+      careerInceptionDatetime: DateTime.parse(data["career_inception_date"]), 
+      careerSpan: Farmer.toDuration(data["career_span"])
+    );
+  }
+
   final String name;
   final String address;
   final String education;
   final String familyBackground;
   final DateTime careerInceptionDatetime;
   final Duration careerSpan ;
+  final String formId;
 
 }
 
@@ -59,22 +87,52 @@ class FarmerNotifier extends Notifier<Farmer> {
     return Farmer.initialize();
   }
 
-  void save(
+  Future<void> save(
     String? name,
     String? address,
     String? education,
     String? familyBackground,
     DateTime? careerInceptionDatetime,
     Duration? careerSpan
-  ){
-    state = state.copyWith(
-      name?? state.name,
-      address?? state.address,
-      education?? state.education,
-      familyBackground?? state.familyBackground,
-      careerInceptionDatetime?? state.careerInceptionDatetime,
-      careerSpan?? state.careerSpan
-    );
+  ) async {
+    
+
+    // state = state.copyWith(
+    //   name?? state.name,
+    //   address?? state.address,
+    //   education?? state.education,
+    //   familyBackground?? state.familyBackground,
+    //   careerInceptionDatetime?? state.careerInceptionDatetime,
+    //   careerSpan?? state.careerSpan
+    // );
+
+    print("Inside save");
+
+    print(careerInceptionDatetime);
+    await supabase.from('farmer_dtl').insert({
+      'name': name?? state.name,
+      'address': address?? state.address,
+      'education': education?? state.education,
+      'family_background': familyBackground?? state.familyBackground,
+      'career_inception_date': careerInceptionDatetime.toString()?? state.careerInceptionDatetime.toString(),
+      'career_span': careerSpan.toString()?? state.careerSpan.toString()
+    });
+
+    state = Farmer.initialize();
+    print("Saved the farmer data to the table in the supabase");
+  }
+
+  Future<List<Farmer>> getFarmers() async {
+
+    final data = await supabase.from("farmer_dtl").select();
+    List<Farmer> farmers = [];
+
+    for (Map<String, dynamic> mp in data){
+      farmers.add(
+        Farmer.fromJson(mp)
+      );
+    }
+    return farmers;
   }
 }
 
@@ -82,71 +140,6 @@ final farmerProvider = NotifierProvider<FarmerNotifier, Farmer>((){
   return FarmerNotifier();
 });
 
-
-@immutable 
-class FarmPropertiesDetail {
-  
-  const FarmPropertiesDetail({
-    required this.noFarmProperties,
-    required this.farmProperties
-  });
-
-  factory FarmPropertiesDetail.initialize(){
-    return FarmPropertiesDetail(
-      noFarmProperties: 0, 
-      farmProperties: []
-    );
-  }
-
-  factory FarmPropertiesDetail.copyWith(
-    FarmPropertiesDetail farmPropertiesDetail,
-    int? noFarmProperties,
-    List<FarmProperty>? farmProperties
-  ){
-    return FarmPropertiesDetail(
-      noFarmProperties: noFarmProperties?? farmPropertiesDetail.noFarmProperties, 
-      farmProperties: farmProperties?? farmPropertiesDetail.farmProperties
-    );
-  }
-
-  final int noFarmProperties ;
-  final List<FarmProperty> farmProperties ;
-}
-
-@immutable 
-class FarmProperty {
-
-  const FarmProperty({
-    required this.farmlandArea,
-    required this.areaUnit,
-    required this.location
-  });
-
-  factory FarmProperty.initialize(){
-    return FarmProperty(
-      farmlandArea: 0, 
-      areaUnit: AreaUnit.acre, 
-      location: ""
-    );
-  }
-
-  factory FarmProperty.copyWith(
-    FarmProperty farmProperty,
-    double? farmlandArea,
-    AreaUnit? areaUnit,
-    String? location
-  ){
-    return FarmProperty(
-      farmlandArea: farmlandArea?? farmProperty.farmlandArea, 
-      areaUnit: areaUnit?? farmProperty.areaUnit, 
-      location: location?? farmProperty.location
-    );
-  }
-
-  final double farmlandArea ;
-  final AreaUnit areaUnit;
-  final String location ;
-}
 
 enum CropLifecycleStage {
   notPlanted,
@@ -268,6 +261,7 @@ class CropDetails {
   final double farmServicesCost;
   final double plantationMaterialCost;
   final PlantationMaterial plantationMaterialType ;
+  final String formId;
 }
 
 enum IncomeCalcPeriod {
@@ -325,6 +319,7 @@ class AlliedBusiness {
   final IncomeCalcPeriod incomeCalcPeriod;
   final int peopleEmployed;
   final List<FarmTool> farmTools;
+  final String formId;
 }
 
 class FarmTool {
@@ -354,5 +349,6 @@ class FarmTool {
 
   final String name;
   final String description;
+  final String formId;
 }
 

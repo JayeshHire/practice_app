@@ -2,11 +2,14 @@
 
 import 'package:flutter/material.dart';
 
-class FarmPropertiesDetailsPage extends StatelessWidget {
+class FarmPropertiesDetailsFormPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Fill the form properties details"),
+      ),
       body: SafeArea(
         child: Column(
           children: [
