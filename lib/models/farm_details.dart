@@ -25,8 +25,7 @@ class Farmer {
       );
   }
 
-  factory Farmer.copyWith(
-    Farmer farmer,
+  Farmer copyWith(
     String? name,
     String? address,
     String? education,
@@ -35,12 +34,12 @@ class Farmer {
     Duration? careerSpan
   ){
     return Farmer(
-      name: name?? farmer.name, 
-      address: address?? farmer.address, 
-      education: education?? farmer.education , 
-      familyBackground: familyBackground?? farmer.familyBackground, 
-      careerInceptionDatetime: careerInceptionDatetime?? farmer.careerInceptionDatetime, 
-      careerSpan: careerSpan?? farmer.careerSpan
+      name: name?? this.name, 
+      address: address?? this.address, 
+      education: education?? this.education , 
+      familyBackground: familyBackground?? this.familyBackground, 
+      careerInceptionDatetime: careerInceptionDatetime?? this.careerInceptionDatetime, 
+      careerSpan: careerSpan?? this.careerSpan
       );
   }
 
@@ -53,9 +52,36 @@ class Farmer {
 
 }
 
-final farmerProvider = Provider<Farmer>((ref) {
-  return Farmer.initialize();
+class FarmerNotifier extends Notifier<Farmer> {
+
+  @override
+  Farmer build() {
+    return Farmer.initialize();
+  }
+
+  void save(
+    String? name,
+    String? address,
+    String? education,
+    String? familyBackground,
+    DateTime? careerInceptionDatetime,
+    Duration? careerSpan
+  ){
+    state = state.copyWith(
+      name?? state.name,
+      address?? state.address,
+      education?? state.education,
+      familyBackground?? state.familyBackground,
+      careerInceptionDatetime?? state.careerInceptionDatetime,
+      careerSpan?? state.careerSpan
+    );
+  }
+}
+
+final farmerProvider = NotifierProvider<FarmerNotifier, Farmer>((){
+  return FarmerNotifier();
 });
+
 
 @immutable 
 class FarmPropertiesDetail {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_app/models/farm_details.dart';
 import 'package:my_app/pages/farmer_prop_det_page.dart';
 
 class FarmerDetailsPage extends StatelessWidget {
@@ -63,97 +65,196 @@ class _FarmerDetFormState extends State<FarmerDetailsForm>{
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: EdgeInsets.all(15),
-        child: Container(
-          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-          decoration: BoxDecoration(
-            border: Border.all(),
+
+    
+    return Consumer(
+      builder: (context, ref, _) {
+        final farmer = ref.watch(farmerProvider) ;
+        return Padding(
+          padding: EdgeInsets.all(15),
+          child: Container(
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            decoration: BoxDecoration(
+              border: Border.all(),
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(15),
+              child: SingleChildScrollView(
+                child: Column(
+                    children: [
+                      TextFormField(
+                        controller: nameController,
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          labelText: 'Enter your name'
+                        ),
+                      ),
+                      TextFormField(
+                        controller: addressController,
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          labelText: 'Enter address details'
+                        ),
+                      ),
+                      TextFormField(
+                        controller: educationController,
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          labelText: 'Enter education details'
+                        ),
+                      ),
+                      TextFormField(
+                        controller: familyController,
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          labelText: 'Enter family background details'
+                        ),
+                      ),
+                      TextFormField(
+                        controller: careerInceptionDateController,
+                        readOnly: true, 
+                        onTap: () async {
+                          await _pickDateTime(context); 
+                        },
+                        decoration: InputDecoration(
+                          border: const UnderlineInputBorder(),
+                          labelText: 'Enter the career inception date',
+                          suffixIcon: IconButton( 
+                            icon: const Icon(Icons.calendar_month),
+                            onPressed: () async {
+                              await _pickDateTime(context); 
+                            },
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        child: FloatingActionButton(
+                          onPressed: () {
+                            print("name: ${nameController.text}");
+                            print("address: ${addressController.text}");
+                            print("education: ${educationController.text}");
+                            print("family background: ${familyController.text}");
+                            print("career inception date: ${careerInceptionDateController.text}");
+                            ref.read(farmerProvider.notifier).save(
+                              nameController.text, 
+                              addressController.text, 
+                              educationController.text, 
+                              familyController.text, 
+                              _selectedDateTime, 
+                              _selectedDateTime == null ? Duration(days: 0): DateTime.now().difference(_selectedDateTime!)
+                            );
+                            // print("")
+                          },
+                          child: Icon(Icons.info),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        child: FloatingActionButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context, 
+                              MaterialPageRoute(
+                                builder: (context){
+                                  return FarmPropertiesDetailsPage();
+                                }
+                              )
+                            );
+                          },
+                          child: Icon(Icons.arrow_forward),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        child: FloatingActionButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context, 
+                              MaterialPageRoute(
+                                builder: (context){
+                                  return FarmerProfilePage();
+                                }
+                              )
+                            );
+                          },
+                          child: Icon(Icons.account_circle_rounded),
+                        ),
+                      )
+                    ],
+                  ),
+              ),
+            )
           ),
-          child: Padding(
-            padding: EdgeInsets.all(15),
-            child: Column(
+        );
+      },
+    );
+  }
+}
+
+class FarmerProfilePage extends ConsumerWidget {
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    final farmer = ref.watch(farmerProvider);
+
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Row(
               children: [
-                TextFormField(
-                  controller: nameController,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Enter your name'
-                  ),
-                ),
-                TextFormField(
-                  controller: addressController,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Enter address details'
-                  ),
-                ),
-                TextFormField(
-                  controller: educationController,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Enter education details'
-                  ),
-                ),
-                TextFormField(
-                  controller: familyController,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Enter family background details'
-                  ),
-                ),
-                TextFormField(
-                  controller: careerInceptionDateController,
-                  readOnly: true, 
-                  onTap: () async {
-                    await _pickDateTime(context); 
-                  },
-                  decoration: InputDecoration(
-                    border: const UnderlineInputBorder(),
-                    labelText: 'Enter the career inception date',
-                    suffixIcon: IconButton( 
-                      icon: const Icon(Icons.calendar_month),
-                      onPressed: () async {
-                        await _pickDateTime(context); 
-                      },
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      print("name: ${nameController.text}");
-                      print("address: ${addressController.text}");
-                      print("education: ${educationController.text}");
-                      print("family background: ${familyController.text}");
-                      print("career inception date: ${careerInceptionDateController.text}");
-                      
-                      // print("")
-                    },
-                    child: Icon(Icons.info),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context, 
-                        MaterialPageRoute(
-                          builder: (context){
-                            return FarmPropertiesDetailsPage();
-                          }
-                        )
-                      );
-                    },
-                    child: Icon(Icons.arrow_forward),
-                  ),
-                )
+                Text("Name"),
+                Text(": "),
+                Text("${farmer.name}")
               ],
             ),
-          )
+            Row(
+              children: [
+                Text("address"),
+                Text(": "),
+                Text("${farmer.address}")
+              ],
+            ),
+            Row(
+              children: [
+                Text("education"),
+                Text(": "),
+                Text("${farmer.education}")
+              ],
+            ),
+            Row(
+              children: [
+                Text("family background"),
+                Text(": "),
+                Text("${farmer.familyBackground}")
+              ],
+            ),
+            Row(
+              children: [
+                Text("career inception date"),
+                Text(": "),
+                Text("${farmer.careerInceptionDatetime}")
+              ],
+            ),
+            Row(
+              children: [
+                Text("career span"),
+                Text(": "),
+                Text("${farmer.careerSpan}")
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(Icons.arrow_back),
+              ),
+            )
+          ],
         ),
       ),
     );
