@@ -5,12 +5,8 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_app/main.dart';
+import 'package:my_app/models/m_utils.dart';
 import 'package:uuid/uuid.dart';
-
-enum FormStatus {
-  COMPLETED,
-  INCOMPLETE
-}
 
 class MyForm {
 
@@ -18,17 +14,21 @@ class MyForm {
   final String formId ;
   // enum
   final FormStatus status;
+  // This field is populated when the farmer form is saved
+  int? farmerId; 
   
-  MyForm(this.status, {String? formId}): this.formId = formId?? uuid.v4();
+  MyForm(this.status, {String? formId, int? farmerId}): this.formId = formId?? uuid.v4();
 
 
   MyForm copyWith({
     FormStatus? status,
-    String? formId
+    String? formId,
+    int? farmerId
   }) {
     return MyForm(
       status ?? this.status,
-      formId: formId?? this.formId
+      formId: formId?? this.formId,
+      farmerId: farmerId?? this.farmerId
     );
   }
 
@@ -36,13 +36,15 @@ class MyForm {
     return <String, dynamic>{
       'formId': formId,
       'status': status.index,
+      'farmerId': farmerId
     };
   }
 
   factory MyForm.fromMap(Map<String, dynamic> map) {
     return MyForm(
       map["status"],
-      formId: map["formId"]
+      formId: map["formId"],
+      farmerId: map["farmerId"]
     );
   }
 
@@ -77,3 +79,33 @@ class MyFormNotifier extends Notifier<MyForm> {
 final myFormNotifierProvider = NotifierProvider<MyFormNotifier, MyForm>((){
   return MyFormNotifier();
 });
+
+class MyFormListNotifier extends Notifier<List<MyForm>>{
+
+  @override
+  List<MyForm> build() {
+    return <MyForm>[];
+  }
+
+  void addMyForm(MyForm myform){
+    state = [...state, myform];
+  }
+
+  void removeMyForm(String formId){
+    state = state.where((f) => f.formId != formId).toList();
+  }
+
+  void updateStatusToCompleted(String formId){
+    state = [
+      for (final f in state)
+        if (f.formId == formId)
+          f.copyWith(status: FormStatus.COMPLETED)
+        else
+          f
+    ];
+  }
+}
+
+final myFormListNotifierProvider = NotifierProvider<MyFormListNotifier, List<MyForm>>(
+  () => MyFormListNotifier()
+);
