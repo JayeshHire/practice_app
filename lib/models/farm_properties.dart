@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_app/models/farm_details.dart';
+import 'package:my_app/models/m_utils.dart';
 import 'package:my_app/models/session.dart';
 
 @immutable 
@@ -10,7 +11,7 @@ class FarmPropertiesDetail {
     this.noFarmProperties,
     this.farmProperties);
 
-  factory FarmPropertiesDetail.initialize(String formId){
+  factory FarmPropertiesDetail.initialize(){
     return FarmPropertiesDetail(
       0, 
       [],
