@@ -37,19 +37,11 @@ class FarmTool {
 class FarmToolNotifier extends Notifier<FarmTool> {
 
   @override FarmTool build() {
-    return FarmTool.initialize();
-  }
-
-  void setFormId(){
     final myForm = ref.watch(myFormNotifierProvider);
-    state.formId = myForm.formId ;
+    return FarmTool.initialize()..formId = myForm.formId;
   }
 }
 
 final farmToolNotifierProvider = NotifierProvider<FarmToolNotifier, FarmTool>(
-  () {
-    final notifier = FarmToolNotifier();
-    notifier.setFormId();
-    return notifier;
-  }
+  FarmToolNotifier.new,
 );

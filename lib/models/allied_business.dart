@@ -54,19 +54,11 @@ class AlliedBusinessNotifier extends Notifier<AlliedBusiness> {
 
   @override
   AlliedBusiness build() {
-    return AlliedBusiness.initialize();
-  }
-
-  void setFormId(){
     final myForm = ref.watch(myFormNotifierProvider);
-    state.formId = myForm.formId ;
+    return AlliedBusiness.initialize()..formId = myForm.formId;
   }
 }
 
 final alliedBusinessNotifierProvider = NotifierProvider<AlliedBusinessNotifier, AlliedBusiness>(
-  (){
-    final notifier = AlliedBusinessNotifier();
-    notifier.setFormId();
-    return notifier;
-  }
+  AlliedBusinessNotifier.new,
 );

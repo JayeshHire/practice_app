@@ -7,7 +7,12 @@ class FarmerDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FarmerDetailsForm();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Enter farmer details"),
+      ),
+      body: FarmerDetailsForm(),
+    );
   }
 }
 

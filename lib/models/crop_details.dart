@@ -123,19 +123,11 @@ class CropDetailsNotifier extends Notifier<CropDetails>{
 
   @override
   CropDetails build() {
-    return CropDetails.initialize();
-  }
-
-  void setFormId(){
     final myForm = ref.watch(myFormNotifierProvider);
-    state.formId = myForm.formId ;
+    return CropDetails.initialize()..formId = myForm.formId;
   }
 }
 
 final cropDetailsNotifierProvider = NotifierProvider<CropDetailsNotifier, CropDetails>(
-  (){
-    final notifier = CropDetailsNotifier();
-    notifier.setFormId();
-    return notifier;
-  }
+  CropDetailsNotifier.new,
 );

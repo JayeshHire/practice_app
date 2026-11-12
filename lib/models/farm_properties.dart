@@ -80,39 +80,25 @@ class FarmPropertyNotifier extends Notifier<FarmProperty>{
 
   @override
   FarmProperty build() {
-    return FarmProperty.initialize();
-  }
-
-  void setFormId(){
     final myForm = ref.watch(myFormNotifierProvider);
-    state.formId = myForm.formId ;
+    return FarmProperty.initialize()..formId = myForm.formId;
   }
 }
 
-final farmProNotifierProvider = NotifierProvider<FarmPropertyNotifier, FarmProperty>((){
-  final notifier = FarmPropertyNotifier();
-  notifier.setFormId();
-  return notifier ;
-});
+final farmProNotifierProvider = NotifierProvider<FarmPropertyNotifier, FarmProperty>(
+  FarmPropertyNotifier.new,
+);
 
 
 class FarmPropertiesNotifier extends Notifier<FarmPropertiesDetail> {
 
   @override
   FarmPropertiesDetail build() {
-    return FarmPropertiesDetail.initialize();
-  }
-
-  void setFormId(){
     final myForm = ref.watch(myFormNotifierProvider);
-    state.formId = myForm.formId ;
+    return FarmPropertiesDetail.initialize()..formId = myForm.formId;
   }
 }
 
 final farmProDtlNotifierProvider = NotifierProvider<FarmPropertiesNotifier, FarmPropertiesDetail>(
-  () {
-    final notifier = FarmPropertiesNotifier();
-    notifier.setFormId();
-    return notifier;
-  }
+  FarmPropertiesNotifier.new,
 );

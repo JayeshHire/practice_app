@@ -86,7 +86,8 @@ class FarmerNotifier extends Notifier<Farmer> {
 
   @override
   Farmer build() {
-    return Farmer.initialize();
+    final form = ref.watch(myFormNotifierProvider);
+    return Farmer.initialize()..formId = form.formId;
   }
 
   Future<void> save(
@@ -149,22 +150,13 @@ class FarmerNotifier extends Notifier<Farmer> {
 
   Future<Farmer> getNewFarmer() async {
     final f = Farmer.initialize();
+    Future.delayed(Duration(seconds: 2));
     return f.copyWith(name: "Unknown");
-  }
-
-  void setFormId(){
-    final myForm = ref.watch(myFormNotifierProvider);
-    state.formId = myForm.formId ;
   }
 
 }
 
-final farmerProvider = NotifierProvider<FarmerNotifier, Farmer>((){
-  final notifier= FarmerNotifier();
-  notifier.setFormId();
-  return notifier;
-});
-
-
-
+final farmerProvider = NotifierProvider<FarmerNotifier, Farmer>(
+  FarmerNotifier.new,
+);
 
