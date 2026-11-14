@@ -44,6 +44,8 @@ class FarmProperty {
     required this.farmlandArea,
     required this.areaUnit,
     required this.location,
+    this.farmerId,
+    this.formId
   });
 
   factory FarmProperty.initialize(){
@@ -56,17 +58,18 @@ class FarmProperty {
   }
 
   FarmProperty copyWith(
-    FarmProperty farmProperty,
     double? farmlandArea,
     AreaUnit? areaUnit,
     String? location,
-    // String formId
+    String? formId,
+    int? farmerId
   ){
     return FarmProperty(
-      farmlandArea: farmlandArea?? farmProperty.farmlandArea, 
-      areaUnit: areaUnit?? farmProperty.areaUnit, 
-      location: location?? farmProperty.location,
-      // formId: formId
+      farmlandArea: farmlandArea?? this.farmlandArea, 
+      areaUnit: areaUnit?? this.areaUnit, 
+      location: location?? this.location,
+      formId: formId?? this.formId,
+      farmerId: farmerId?? this.farmerId
     );
   }
 
@@ -74,6 +77,7 @@ class FarmProperty {
   final AreaUnit areaUnit;
   final String location ;
   String? formId;
+  int? farmerId;
 }
 
 class FarmPropertyNotifier extends Notifier<FarmProperty>{

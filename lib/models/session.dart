@@ -87,8 +87,8 @@ class MyFormListNotifier extends Notifier<List<MyForm>>{
     return <MyForm>[];
   }
 
-  void addMyForm(MyForm myform){
-    state = [...state, myform];
+  void addMyForm(MyForm myForm){
+    state = [...state, myForm];
   }
 
   void removeMyForm(String formId){

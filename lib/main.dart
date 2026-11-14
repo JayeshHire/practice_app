@@ -138,7 +138,24 @@ class FormsListPage extends ConsumerWidget {
                 );
               },
             ),
-        )
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // create a new form 
+            // add this form to the forms list
+            // navigate to the farmer details form page. 
+            final myForm = MyForm(FormStatus.INCOMPLETE);
+            ref.read(myFormListNotifierProvider.notifier).addMyForm(myForm);
+            Navigator.push(
+              context, 
+              MaterialPageRoute(
+                builder: (context) {
+                  return FarmerDetailsPage();
+                }
+              )
+            );
+          },
+        ),
       );
   }
 }
