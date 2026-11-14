@@ -1,0 +1,28 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="VDORTpipauRqb8IygJqS">
+    <mxGraphModel dx="834" dy="419" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="lF37zi2sSAXcXKA8zPPB-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="App Architecture" vertex="1">
+          <mxGeometry height="60" width="130" x="100" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lF37zi2sSAXcXKA8zPPB-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="- model&lt;div&gt;- notifier&lt;/div&gt;&lt;div&gt;- notifier provider&lt;/div&gt;&lt;div&gt;- UI layer&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="100" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="lF37zi2sSAXcXKA8zPPB-3" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="- model" vertex="1">
+          <mxGeometry height="30" width="60" x="120" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="lF37zi2sSAXcXKA8zPPB-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Dart data classes" vertex="1">
+          <mxGeometry height="30" width="100" x="140" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="lF37zi2sSAXcXKA8zPPB-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="- notifier" vertex="1">
+          <mxGeometry height="30" width="60" x="120" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="lF37zi2sSAXcXKA8zPPB-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="-- Contains business logic for fetching data from db&lt;div&gt;-- Saving data to db&lt;/div&gt;&lt;div&gt;-- build method should fetch the form id and farm id of the current form and farm. Create a farmProperty object using these identifiers.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="120" width="185" x="130" y="230" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
